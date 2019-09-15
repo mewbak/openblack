@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include <AllMeshes.h>
 #include <Enums.h>
 #include <cstdint>
 
@@ -52,17 +53,18 @@ struct MagicInfo
 	int32_t oneOffSpellIsAggressive;
 	int32_t oneOffSpellIsCompassionate;
 	int32_t oneOffSpellIsToRestoreHealth;
+	ParticleType particleType2;
 };
 
 struct MagicHealInfo : MagicInfo
 {
-	int32_t dummyVar;
+	float dummyVar;
 	int32_t maxToHeal;
 };
 
 struct MagicTeleportInfo : MagicInfo
 {
-	int32_t costPerKilometer;
+	float costPerKilometer;
 };
 
 struct MagicForestInfo : MagicInfo
@@ -83,31 +85,64 @@ struct MagicFoodInfo : MagicInfo
 	int32_t poisoned;
 };
 
-struct MagicStormAndTornadoInfo : MagicInfo {
+struct MagicStormAndTornadoInfo : MagicInfo
+{
+	float minRadius;
+	float maxRadius;
+	float radiusForNormalCost;
+	float maxWindSpeed;
+	float rainAmount;
+};
+
+struct MagicShieldOneInfo : MagicInfo
+{
 	int32_t minRadius;
 	int32_t maxRadius;
 	int32_t radiusForNormalCost;
-	int32_t maxWindSpeed;
-	int32_t rainAmount;
+	int32_t chantCostPerImpactMomentum;
+	int32_t shieldHeight;
+	int32_t raiseWithScale;
+	int32_t bobMagnitude;
 };
 
-struct MagicShieldOneInfo : MagicInfo {
-	// MinRadius	MaxRadius	RadiusForNormalCost	ChantCostPerImpactMomentum	ShieldHeight	RaiseWithScale	BobMagnitude
+struct MagicWoodInfo : MagicInfo
+{
+	ResourceType resourceType;
+	int32_t resourceAmountFirstEvent;
+	int32_t resourceAmountPerEvent;
+	int32_t costPerUnit;
+	int32_t poisoned;
 };
-struct MagicWoodInfo : MagicInfo {
-	// ResourceType:ENUM_RESOURCE_TYPE	ResourceAmountFirstEvent	ResourceAmountPerEvent	CostPerUnit	Poisoned
+
+// nothing ?
+struct MagicWaterInfo : MagicInfo {};
+
+struct MagicFlockFlyingInfo : MagicInfo
+{
+	int32_t numberToCreate;
+	int32_t alignmentSwitch;
+	int32_t distanceToTravel;
 };
-struct MagicWaterInfo : MagicInfo {
-	// nothing
+
+struct MagicFlockGroundInfo : MagicInfo
+{
+	int32_t numberToCreate;
+	int32_t alignmentSwitch;
+	int32_t distanceToTravel;
+	int32_t huntingRadius;
 };
-struct MagicFlockFlyingInfo : MagicInfo {
-	// NumberToCreate	AlignmentSwitch	DistanceToTravel
+
+struct MagicCreatureSpellInfo : MagicInfo
+{
+	CreatureReceiveSpellType creatureReceiveSpellType;
+	char text[48];
+	int32_t startTransitionDuration;
+	int32_t finishTransitionDuration;
+	int32_t totalDuration;
+    int32_t maxDirnChangeWhenCtrCasting;
 };
-struct MagicFlockGroundInfo : MagicInfo {
-	// NumberToCreate	AlignmentSwitch	DistanceToTravel	HuntingRadius
-};
-struct MagicCreatureSpellInfo : MagicInfo {
-	// ENUM_CREATURE_RECEIVE_SPELL_TYPE	Text:48	StartTransitionDuration	FinishTransitionDuration	TotalDuration	MaxDirnChangeWhenCtrCasting
+
+
 };
 
 } // namespace openblack

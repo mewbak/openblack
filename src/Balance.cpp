@@ -19,12 +19,14 @@
  */
 
 #include <Balance.h>
-#include <Game.h>
 #include <Common/FileSystem.h>
-#include <spdlog/spdlog.h>
 #include <Common/magic_enum.hpp>
+#include <Game.h>
+#include <spdlog/spdlog.h>
 
-namespace openblack {
+namespace openblack
+{
+
 void Balance::LoadVariables()
 {
 	auto file = Game::instance()->GetFileSystem().Open("Scripts/info.dat", FileMode::Read);
@@ -48,33 +50,91 @@ void Balance::LoadVariables()
 	file->Read(blockName, 32);
 	uint32_t size = file->ReadValue<uint32_t>();
 
-	spdlog::debug("info.dat: block name = {} = {} bytes", blockName, size);
-
+	spdlog::debug("DETAIL_MAGIC_GENERAL_INFO");
 	for (auto i = 0; i < 10; i++)
 	{
-		MagicInfo info;
-		file->Read(&info, 0x48);
-
-		spdlog::debug("[{}] MagicType={} = ImpressiveType={}", i, magic_enum::enum_name(info.magicType), magic_enum::enum_name(info.impressiveType));
+		auto info = file->ReadValue<MagicInfo>();
+		spdlog::debug("[{}] MagicType={} : impressiveType={}", i, magic_enum::enum_name(info.magicType), magic_enum::enum_name(info.impressiveType));
 	}
 
-	// GMagicInfo: 0x48 bytes // DETAIL_MAGIC_GENERAL_INFO
+	spdlog::debug("DETAIL_MAGIC_HEAL_INFO");
+	for (auto i = 0; i < 2; i++)
+	{
+		auto info = file->ReadValue<MagicHealInfo>();
+		spdlog::debug("[{}] MagicType={} : maxToHeal={}", i, magic_enum::enum_name(info.magicType), info.maxToHeal);
+	}
+
+	spdlog::debug("DETAIL_MAGIC_TELEPORT_INFO");
+	{
+		auto info = file->ReadValue<MagicTeleportInfo>();
+		spdlog::debug("[{}] MagicType={} : costPerKM={}", 0, magic_enum::enum_name(info.magicType), info.costPerKilometer);
+	}
+
+	spdlog::debug("DETAIL_MAGIC_FOREST_INFO");
+	{
+		auto info = file->ReadValue<MagicForestInfo>();
+		spdlog::debug("[{}] MagicType={} : finalNoTrees={}", 0, magic_enum::enum_name(info.magicType), info.finalNoTrees);
+	}
+
+	spdlog::debug("DETAIL_MAGIC_FOOD_INFO");
+	for (auto i = 0; i < 2; i++)
+	{
+		auto info = file->ReadValue<MagicFoodInfo>();
+		spdlog::debug("[{}] MagicType={} : resourceType={}", i, magic_enum::enum_name(info.magicType), magic_enum::enum_name(info.resourceType));
+	}
+
+	spdlog::debug("DETAIL_MAGIC_STORM_AND_TORNADO_INFO");
+	for (auto i = 0; i < 3; i++)
+	{
+		auto info = file->ReadValue<MagicStormAndTornadoInfo>();
+		spdlog::debug("[{}] MagicType={} : rainAmount={}", i, magic_enum::enum_name(info.magicType), info.rainAmount);
+	}
+
+	spdlog::debug("DETAIL_MAGIC_SHIELD_ONE_INFO");
+	for (auto i = 0; i < 2; i++)
+	{
+		auto info = file->ReadValue<MagicShieldOneInfo>();
+		spdlog::debug("[{}] MagicType={} : shieldHeight={}", i, magic_enum::enum_name(info.magicType), info.shieldHeight);
+	}
+
+	spdlog::debug("DETAIL_MAGIC_WOOD_INFO");
+	{
+		auto info = file->ReadValue<MagicWoodInfo>();
+		spdlog::debug("[{}] MagicType={} : resourceType={}", 0, magic_enum::enum_name(info.magicType), magic_enum::enum_name(info.resourceType));
+	}
+
+	spdlog::debug("DETAIL_MAGIC_WATER_INFO");
+	for (auto i = 0; i < 2; i++)
+	{
+		auto info = file->ReadValue<MagicWaterInfo>();
+		spdlog::debug("[{}] MagicType={}", i, magic_enum::enum_name(info.magicType));
+	}
+
+	spdlog::debug("DETAIL_MAGIC_FLOCK_FLYING_INFO");
+	{
+		auto info = file->ReadValue<MagicFlockFlyingInfo>();
+		spdlog::debug("[{}] MagicType={} : numberToCreate={}", 0, magic_enum::enum_name(info.magicType), info.numberToCreate);
+	}
+
+	spdlog::debug("DETAIL_MAGIC_FLOCK_GROUND_INFO");
+	{
+		auto info = file->ReadValue<MagicFlockGroundInfo>();
+		spdlog::debug("[{}] MagicType={} : numberToCreate={}", 0, magic_enum::enum_name(info.magicType), info.numberToCreate);
+	}
+
+	spdlog::debug("DETAIL_MAGIC_CREATURE_SPELL_INFO");
+	for (auto i = 0; i < 16; i++)
+	{
+		auto info = file->ReadValue<MagicCreatureSpellInfo>();
+		spdlog::debug("[{}] MagicType={} text='{}'", i, magic_enum::enum_name(info.magicType), info.text);
+	}
+
+	spdlog::debug("DETAIL_MAGIC_EFFECT_INFO");
 	// 10
 
-	// GMagicHealInfo: 0x48, 0x8 bytes // DETAIL_MAGIC_HEAL_INFO
-	// GMagicTeleportInfo: 0x48, 0x8 bytes // DETAIL_MAGIC_TELEPORT_INFO
+		int size = sizeof(MagicEffectInfo);
 
-	// DETAIL_MAGIC_GENERAL_INFO
-	// DETAIL_MAGIC_HEAL_INFO
-	// DETAIL_MAGIC_TELEPORT_INFO
-	// DETAIL_MAGIC_FOREST_INFO
-	// DETAIL_MAGIC_FOOD_INFO
-	// DETAIL_MAGIC_STORM_AND_TORNADO_INFO
-	// DETAIL_MAGIC_SHIELD_ONE_INFO
-	// DETAIL_MAGIC_WOOD_INFO
-	// DETAIL_MAGIC_WATER_INFO
-	// DETAIL_MAGIC_FLOCK_FLYING_INFO
-	// DETAIL_MAGIC_FLOCK_GROUND_INFO
-	// DETAIL_MAGIC_CREATURE_SPELL_INFO
+		//spdlog::debug("[{}] MagicType={} text='{}'", i, magic_enum::enum_name(info.), info.text);
 }
 }
+} // namespace openblack
