@@ -130,11 +130,13 @@ void Balance::LoadVariables()
 	}
 
 	spdlog::debug("DETAIL_MAGIC_EFFECT_INFO");
-	// 10
+	for (auto i = 0; i < 21; i++)
+	{
+		auto info = file->ReadValue<MagicEffectInfo>();
 
 		int size = sizeof(MagicEffectInfo);
 
 		//spdlog::debug("[{}] MagicType={} text='{}'", i, magic_enum::enum_name(info.), info.text);
-}
+	}
 }
 } // namespace openblack

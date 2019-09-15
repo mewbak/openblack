@@ -143,6 +143,56 @@ struct MagicCreatureSpellInfo : MagicInfo
 };
 
 
+struct MagicEffectInfo
+{
+	float effectBurn;
+	float effectCrush;
+	float effectHit;
+	float effectHeal;
+	float effectForce;
+	float effectAlignmentModificaton;
+	float effectBeliefModification;
+	float radius;
+	MeshId testMesh;
+	char debugString[48];
+	int32_t TimerWhenOneShot;
+	int32_t TimerWhenPlayerCasting;
+	int32_t TimerWhenCreatureCasting;
+	int32_t TimerWhenComputerPlayerCasting;
+	float initialChants;
+	float costToCreate;
+	float costPerEvent;
+	float costPerGameTurn;
+	float costPerShieldCollide;
+	int32_t divideCostsByTribalPower;
+    int32_t createReactionOnCast;
+	int32_t createReactionOnEvent;
+	Reaction reactionType;
+	CreatureDesires perceivedPlayerDesire1;
+	CreatureDesires perceivedPlayerDesire2;
+	TownDesireInfo townDesireBeingHelped;
+	float AgressiveRangeMin;
+	float AgressiveRangeMax;
+	float CalculatedCostForOneTurn;
+	float CostForOneAppliedEffect;
+	float CostInGameTurnsToCreateForOneVillager;
+	float TempNoVillagers;
+	float CostForTempVillagers;
+	float CostInRealTimeToCreate;
+	float ImpressiveValue;
+	float CPImpressiveBalance;
+	int32_t useTribalPowerMultiplier[9]; // TribeType
+	int32_t isAggressiveSpellWhichIsUsedInCreatureFightArena;
+	int32_t isDefensiveSpellWhichIsUsedInCreatureFightArena;
+	int32_t HelpStartEnum;			  // todo: ENUM_HELP_TEXT
+	int32_t HelpEndEnum;			  // todo: ENUM_HELP_TEXT
+	int32_t CreatureNearlyLearntEnum; // todo: ENUM_HELP_TEXT
+	int32_t CreatureLearntEnum;       // todo: ENUM_HELP_TEXT
+	int32_t HelpMessage;              // todo: ENUM_HELP_SYSTEM_MESSAGE_SET
+	int32_t HelpCondition;            // todo: ENUM_HELP_SYSTEM_CONDITION
+	int32_t ToolTipsEnum;             // todo: ENUM_HELP_TEXT
+	float AggressiveAttackValue;
+	float ComputerCastDuration;
 };
 
 } // namespace openblack
