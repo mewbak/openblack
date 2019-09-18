@@ -51,18 +51,6 @@ void Balance::LoadVariables()
 	uint32_t size = file->ReadValue<uint32_t>();
 
 	// GMagicInfo::LoadMagic
-	// GMagicHealInfo::LoadMagic
-	// GMagicTeleportInfo::LoadMagic
-	// GMagicForestInfo::LoadMagic
-	// GMagicResourceInfo::LoadMagic
-	// GMagicStormAndTornadoInfo::LoadMagic
-	// GMagicShieldInfo::LoadMagic
-	// GMagicResourceInfo::LoadMagic
-	// GMagicWaterInfo::LoadMagic
-	// GMagicFlockFlyingInfo::LoadMagic
-	// GMagicFlockGroundInfo::LoadMagic
-	// GMagicCreatureSpellInfo::LoadMagic
-
 	spdlog::debug("DETAIL_MAGIC_GENERAL_INFO");
 	for (auto i = 0; i < 10; i++)
 	{
@@ -70,6 +58,7 @@ void Balance::LoadVariables()
 		spdlog::debug("[{}] MagicType={} : impressiveType={}", i, magic_enum::enum_name(info.magicType), magic_enum::enum_name(info.impressiveType));
 	}
 
+	// GMagicHealInfo::LoadMagic
 	spdlog::debug("DETAIL_MAGIC_HEAL_INFO");
 	for (auto i = 0; i < 2; i++)
 	{
@@ -77,18 +66,21 @@ void Balance::LoadVariables()
 		spdlog::debug("[{}] MagicType={} : maxToHeal={}", i, magic_enum::enum_name(info.magicType), info.maxToHeal);
 	}
 
+	// GMagicTeleportInfo::LoadMagic
 	spdlog::debug("DETAIL_MAGIC_TELEPORT_INFO");
 	{
 		auto info = file->ReadValue<MagicTeleportInfo>();
 		spdlog::debug("[{}] MagicType={} : costPerKM={}", 0, magic_enum::enum_name(info.magicType), info.costPerKilometer);
 	}
 
+	// GMagicForestInfo::LoadMagic
 	spdlog::debug("DETAIL_MAGIC_FOREST_INFO");
 	{
 		auto info = file->ReadValue<MagicForestInfo>();
 		spdlog::debug("[{}] MagicType={} : finalNoTrees={}", 0, magic_enum::enum_name(info.magicType), info.finalNoTrees);
 	}
 
+	// GMagicResourceInfo::LoadMagic
 	spdlog::debug("DETAIL_MAGIC_FOOD_INFO");
 	for (auto i = 0; i < 2; i++)
 	{
@@ -96,6 +88,7 @@ void Balance::LoadVariables()
 		spdlog::debug("[{}] MagicType={} : resourceType={}", i, magic_enum::enum_name(info.magicType), magic_enum::enum_name(info.resourceType));
 	}
 
+	// GMagicStormAndTornadoInfo::LoadMagic
 	spdlog::debug("DETAIL_MAGIC_STORM_AND_TORNADO_INFO");
 	for (auto i = 0; i < 3; i++)
 	{
@@ -103,6 +96,7 @@ void Balance::LoadVariables()
 		spdlog::debug("[{}] MagicType={} : rainAmount={}", i, magic_enum::enum_name(info.magicType), info.rainAmount);
 	}
 
+	// GMagicShieldInfo::LoadMagic
 	spdlog::debug("DETAIL_MAGIC_SHIELD_ONE_INFO");
 	for (auto i = 0; i < 2; i++)
 	{
@@ -110,12 +104,14 @@ void Balance::LoadVariables()
 		spdlog::debug("[{}] MagicType={} : shieldHeight={}", i, magic_enum::enum_name(info.magicType), info.shieldHeight);
 	}
 
+	// GMagicResourceInfo::LoadMagic
 	spdlog::debug("DETAIL_MAGIC_WOOD_INFO");
 	{
 		auto info = file->ReadValue<MagicWoodInfo>();
 		spdlog::debug("[{}] MagicType={} : resourceType={}", 0, magic_enum::enum_name(info.magicType), magic_enum::enum_name(info.resourceType));
 	}
 
+	// GMagicWaterInfo::LoadMagic
 	spdlog::debug("DETAIL_MAGIC_WATER_INFO");
 	for (auto i = 0; i < 2; i++)
 	{
@@ -123,50 +119,57 @@ void Balance::LoadVariables()
 		spdlog::debug("[{}] MagicType={}", i, magic_enum::enum_name(info.magicType));
 	}
 
+	// GMagicFlockFlyingInfo::LoadMagic
 	spdlog::debug("DETAIL_MAGIC_FLOCK_FLYING_INFO");
 	{
 		auto info = file->ReadValue<MagicFlockFlyingInfo>();
 		spdlog::debug("[{}] MagicType={} : numberToCreate={}", 0, magic_enum::enum_name(info.magicType), info.numberToCreate);
 	}
 
+	// GMagicFlockGroundInfo::LoadMagic
 	spdlog::debug("DETAIL_MAGIC_FLOCK_GROUND_INFO");
 	{
 		auto info = file->ReadValue<MagicFlockGroundInfo>();
 		spdlog::debug("[{}] MagicType={} : numberToCreate={}", 0, magic_enum::enum_name(info.magicType), info.numberToCreate);
 	}
 
+	// GMagicCreatureSpellInfo::LoadMagic
 	spdlog::debug("DETAIL_MAGIC_CREATURE_SPELL_INFO");
 	for (auto i = 0; i < 16; i++)
 	{
 		auto info = file->ReadValue<MagicCreatureSpellInfo>();
 		spdlog::debug("[{}] MagicType={} text='{}'", i, magic_enum::enum_name(info.magicType), info.text);
-
-		int size = sizeof(MagicCreatureSpellInfo);
-
 	}
 
 	// GMagicEffectInfo::LoadIt
-
 	spdlog::debug("DETAIL_MAGIC_EFFECT_INFO");
 	for (auto i = 0; i < 42; i++)
 	{
 		auto info = file->ReadValue<MagicEffectInfo>();
-
 		spdlog::debug("[{}] debugString='{}'", magic_enum::enum_name(static_cast<MagicType>(i)), info.debugString);
 	}
 
-	spdlog::debug("pos = {}", file->Position());
-
+	// GSpellSeedInfo::LoadIt
 	spdlog::debug("DETAIL_SPELL_SEEDS");
 	for (auto i = 0; i < 30; i++)
 	{
 		auto info = file->ReadValue<DetailSpellSeed>();
-
 		spdlog::debug("[{}] debugString='{}'", magic_enum::enum_name(static_cast<SpellSeedType>(i)), info.debugString);
 	}
 
-	// GSpellSeedInfo::LoadIt
 	// GAnimalInfo::LoadIt
+	spdlog::debug("DETAIL_ANIMAL_INFO");
+	for (auto i = 0; i < 31; i++)
+	{
+		// skip this, not sure how it is structured yet
+		file->Seek(700, SeekMode::Current);
+
+		//auto info = file->ReadValue<DetailAnimalInfo>();
+		// spdlog::debug("[{}] debugString='{}' mesh={}", magic_enum::enum_name(static_cast<AnimalInfo>(i)), info.debugString, magic_enum::enum_name(info.meshHigh));
+	}	
+
+
+
 	// CreatureInfo::LoadIt
 	// DifferentCreatureInfo::LoadIt
 	// CreatureDesireForType::LoadIt

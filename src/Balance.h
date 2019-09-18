@@ -197,7 +197,7 @@ struct MagicEffectInfo
 	float ComputerCastDuration;
 };
 
-struct DetailSpellSeed
+struct ObjectInfo
 {
 	ObjectType objectType;
 	AlignmentType alignment;
@@ -238,7 +238,7 @@ struct DetailSpellSeed
 	int32_t CanCreatureInspectMe;
 	int32_t CanCreatureGiveMeToLiving;
 	int32_t CanCreatureBringMeBackToTheCitadel;
-	int32_t VillagerInteractState; // todo: ENUM_VILLAGER_STATES
+	int32_t VillagerInteractState;            // todo: ENUM_VILLAGER_STATES
 	int32_t VillagerInteractStateForBuilding; // todo: ENUM_VILLAGER_STATES
 	float VillagerInteractDesire;
 	float SacrificeValue;
@@ -248,6 +248,10 @@ struct DetailSpellSeed
 	float ArtifactMultiplier;
 	float DrawImportance;
 	float ComputerAttackDesire;
+};
+
+struct DetailSpellSeed: ObjectInfo
+{
 	GestureType SelectionGesture1;
 	GestureType SelectionGesture2;
 	GestureType SelectionGesture3;
@@ -287,6 +291,62 @@ struct DetailSpellSeed
 	int32_t CreatureUsesInFight;
 };
 
+struct DetailAnimalInfo : ObjectInfo
+{
+	char unknown[256]; // no clue
+	int32_t Dummy;
+	int32_t speedGroup; // todo: DETAIL_SPEED_GROUP
+	int32_t collideType; // todo: DETAIL_COLLIDE_TYPE
+	LivingType creatureType;
+	LivingStates moveState;
+	float life;
+	float strength;
+	float defence;
+	int32_t startAge;
+	int32_t grownUpAge;
+	int32_t oldAge;
+	int32_t retirementAge;
+	int32_t isReacting; // todo: DETAIL_IS_REACTING
+	int32_t isShepherdable;
+	int32_t minFlockingValue;
+	int32_t maxFlockingValue;
+	AnimalInfo animalInfo;
+	SexType sexType;
+	MeshId meshHigh;
+	MeshId meshStd;
+	MeshId meshLow;
+	int32_t defaultAnim; // todo: DETAIL_ANIM_TYPES
+	int32_t hunger;
+	int32_t thirst;
+	int32_t sleep;
+	int32_t needToBreed;
+	float flockDistance;
+	int32_t turnAngle; // todo: DETAIL_TURNANGLE_STATES
+	int32_t viewAngle; // todo: DETAIL_TURNANGLE_STATES
+	int32_t playerCanPickUp;
+	int32_t needsTown;
+	int32_t needsFoodTypes; // todo: DETAIL_FOOD_TYPE
+	int32_t flocksCanMerge;
+	float stalkingDistance;
+	float attackDistance;
+	float huntingDistance;
+	int32_t sightDistance;
+	int32_t farSightDistance;
+	int32_t nearSightDistance;
+	int32_t chaseTime;
+	int32_t environment;
+	int32_t domainInnerRadius;
+	int32_t domainRadius;
+	int32_t maxFlockSize;
+	int32_t stayTime;
+	float altitudeMin;
+	float altitudeMax;
+	float altitudeVariance;
+	float altitudeMovementChange;
+	float altitudeNormal;
+	int32_t ageToScaleNormal; // todo: AGE_TO_SCALE_NORMAL
+};
+
 // size checks for Black & White 1, these will differ for CreatureIsle most likely
 static_assert(sizeof(MagicInfo) == 72, "MagicInfo size incorrect");
 static_assert(sizeof(MagicHealInfo) == 80, "MagicHealInfo size incorrect");
@@ -303,5 +363,6 @@ static_assert(sizeof(MagicCreatureSpellInfo) == 140, "MagicCreatureSpellInfo siz
 
 static_assert(sizeof(MagicEffectInfo) == 268, "MagicEffectInfo size incorrect");
 static_assert(sizeof(DetailSpellSeed) == 384, "DetailSpellSeed size incorrect");
+
 
 } // namespace openblack
