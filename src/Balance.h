@@ -291,11 +291,11 @@ struct DetailSpellSeed: ObjectInfo
 	int32_t CreatureUsesInFight;
 };
 
-struct DetailAnimalInfo : ObjectInfo
+struct DetailAnimalInfo: ObjectInfo
 {
 	char unknown[256]; // no clue
 	int32_t Dummy;
-	int32_t speedGroup; // todo: DETAIL_SPEED_GROUP
+	int32_t speedGroup;  // todo: DETAIL_SPEED_GROUP
 	int32_t collideType; // todo: DETAIL_COLLIDE_TYPE
 	LivingType creatureType;
 	LivingStates moveState;
@@ -347,6 +347,209 @@ struct DetailAnimalInfo : ObjectInfo
 	int32_t ageToScaleNormal; // todo: AGE_TO_SCALE_NORMAL
 };
 
+// 0x384 = 900
+struct DetailCreatureInfo: ObjectInfo
+{
+	char padding[660];
+};
+
+struct DetailCreatureBalance
+{
+	float initialHeight;
+	float numMinutesToGrowToMaxIfFullyHealthy;
+	float energyDecreasePerGameTurn;
+	float initialFatness;
+	float fatnessDecayPerGameTurn;
+	float fatnessMultiplierWhenEatingSomething;
+	float initialStrength;
+	float strengthDecayPerGameTurn;
+	float numMinutesToBecomeFullyStrongFromHoldingSomethingHeavy;
+	float initialCrawlingSpeed;
+	float initialWalkingSpeed;
+	float initialRunningSpeed;
+	float lookTurnAccel;
+	float exhaustionIncreasePerGameTurn;
+	float exhaustionDecreaseWhenResting;
+	float damageDefenceMultiplierBurn;
+	float damageDefenceMultiplierCrush;
+	float damageDefenceMultiplierHit;
+	float lifeIncreaseWhenResting;
+	int32_t numSecondsBeforeAgeIncrease;
+	float pooMultiplier;
+	float howManyTimesTheyNeedToLearnMultiplier;
+	float alignmentChangeSpeed;
+};
+
+struct DetailCreatureDesireInitialCycleTime
+{
+	float creatureTypes[17];
+};
+
+struct DetailCreatureDevelopment
+{
+	char text[48];
+	float howNearToStayToHome;
+	float timeBetweenHelpPromptsDevelopmentCriteria;
+	float frequencyOfOffScreenPrompts;
+	CreatureDesires desiredAdded[10];
+	CreatureDesires desireRemoved[4];
+};
+
+struct DetailCreatureDevelopsTime
+{
+	int32_t developmentPhases[14];
+};
+
+struct DetailCitadelInfo
+{
+	int32_t ContainerType;
+	int32_t HeartInfo;
+	int32_t PensStartX;
+	int32_t PensStartZ;
+	int32_t PensMaxSpiral;
+	int32_t WorshipSiteStartX;
+	int32_t WorsipSiteStartZ;
+	int32_t MaxNo;
+	int32_t MaxDistanceOfTownFromCitadelOfPygmyTown;
+	int32_t PygmyTownMaxSpiral;
+	int32_t HousesInPygmyTown;
+	int32_t ImportanceOfBeingFarAwayFromOtherTowns;
+	int32_t PrayerSiteAngle;
+	float PrayerSiteDistance;
+	float VirtualInfluenceMaxDistance;
+	int32_t VirtualInfluenceMaxGameTicks;
+	float VirtualInfluenceChantsToDouble;
+};
+
+struct DetailCitadelHeartInfo: ObjectInfo
+{
+	GroundInfo groundInfo;
+	int32_t woodRequiredPerBuild;
+	int32_t timeToBuild;
+	int32_t scaffoldsRequired;
+	int32_t maxVillagerNeededToBuild;
+	float desireToBeBuilt;
+	float desireToBeRepaired;
+	float influence;
+	int32_t citadelType; // DETAIL_CITADEL_TYPES
+	MeshId meshType;     // DETAIL_MESH_TYPES
+	float startLife;
+	int32_t startStrength;
+	float startDefence;
+	int32_t startGoodness;
+	int32_t startFollowers;
+	int32_t maxFlockCount;
+	float storyInfluence[5];
+	float transferedDamageMultiplier;
+};
+
+struct DetailCreaturePenInfo: ObjectInfo
+{
+	GroundInfo groundInfo;
+	int32_t woodRequiredPerBuild;
+	int32_t timeToBuild;
+	int32_t scaffoldsRequired;
+	int32_t maxVillagerNeededToBuild;
+	float desireToBeBuilt;
+	float desireToBeRepaired;
+	float influence;
+	int32_t citadelType; // DETAIL_CITADEL_TYPES
+	MeshId meshType;     // DETAIL_MESH_TYPES
+	float startLife;
+	int32_t startStrength;
+	float startDefence;
+	int32_t info; // DETAIL_PEN_INFO_TYPE
+	float startPlacementDistace;
+	float endPlacementDistace;
+	int32_t placementAngle;
+};
+
+struct DetailWorshipSiteInfo: ObjectInfo
+{
+	GroundInfo groundInfo;
+	int32_t woodRequiredPerBuild;
+	int32_t timeToBuild;
+	int32_t scaffoldsRequired;
+	int32_t maxVillagerNeededToBuild;
+	float desireToBeBuilt;
+	float desireToBeRepaired;
+	float influence;
+	int32_t citadelType; // DETAIL_CITADEL_TYPES
+	MeshId meshType;     // DETAIL_MESH_TYPES
+	float startLife;
+	int32_t startStrength;
+	float startDefence;
+	float radiusFromCitadel;
+	MeshId baseMesh;
+	int32_t PotForResourceFood; // todo: ENUM_POT_INFO
+	int32_t PotForResourceWood; // todo: ENUM_POT_INFO
+	float chantsPerVillager;
+	float prayerSiteDistance;
+	int32_t maxDancersVisible;
+	float chantsToFillBattery;
+	float eachVillagerAddToFillBattery;
+	int32_t chantsToReserveForMaintaining;
+	float artifactPowerupMultiplier;
+};
+
+struct DetailSpellIconInfo: ObjectInfo
+{
+	GroundInfo groundInfo;
+	int32_t woodRequiredPerBuild;
+	int32_t timeToBuild;
+	int32_t scaffoldsRequired;
+	int32_t maxVillagerNeededToBuild;
+	float desireToBeBuilt;
+	float desireToBeRepaired;
+	float influence;
+	MeshId mesh;
+	float radiusFromCitadel;
+	float gatheringChantAddPerGameTurn;
+};
+
+struct DetailAbodeInfo: ObjectInfo
+{
+	GroundInfo groundInfo;
+	int32_t dummy1;
+	int32_t dummy2;
+	int32_t scaffoldsRequired;
+	int32_t maxVillagerNeededToBuild;
+	float desireToBeBuilt;
+	float desireToBeRepaired;
+	float influence;
+	AbodeType abodeType;
+	AbodeNumber abodeNumber;
+	char debugStringTwo[48];
+	TribeType tribeType;
+	MeshId meshID;
+	int32_t canBePhysicallyDamaged;
+	float startLife;
+	int32_t startStrength;
+	float startDefence;
+	int32_t startInfluence;
+	int32_t maxVillagersInAbode;
+	int32_t maxChildrenInAbode;
+	int32_t startVillagersInAbode;
+	int32_t startChildrenInAbode;
+	int32_t startFood;
+	int32_t startFoodRAnd;
+	int32_t startWood;
+	int32_t startWoodRAnd;
+	int32_t howLongRuinLastsFor;
+	int32_t potForResourceFood;
+	int32_t potForResourceWood;
+	float percentTooCrowded;
+	MobileObjectInfo producesMobileObject;
+	float maxNumMobileObjectsToProduce;
+	float timeEachMobileObjectTakesToProduce;
+	float emptyAbodeLifeReducer;
+	int32_t populationWhenNeeded;
+	float thresholdForStopBeingFunctional;
+	int32_t toolTipsForBuild; // todo: ENUM_HELP_TEXT
+	int32_t didYouKnow; // todo: ENUM_HELP_TEXT
+	int32_t DYKCategory; // todo: ENUM_DYK_CATEGORY
+};
+
 // size checks for Black & White 1, these will differ for CreatureIsle most likely
 static_assert(sizeof(MagicInfo) == 72, "MagicInfo size incorrect");
 static_assert(sizeof(MagicHealInfo) == 80, "MagicHealInfo size incorrect");
@@ -363,6 +566,9 @@ static_assert(sizeof(MagicCreatureSpellInfo) == 140, "MagicCreatureSpellInfo siz
 
 static_assert(sizeof(MagicEffectInfo) == 268, "MagicEffectInfo size incorrect");
 static_assert(sizeof(DetailSpellSeed) == 384, "DetailSpellSeed size incorrect");
-
+static_assert(sizeof(DetailAnimalInfo) == 700, "DetailAnimalInfo size incorrect");
+static_assert(sizeof(DetailCreatureInfo) == 900, "DetailCreatureInfo size incorrect");
+static_assert(sizeof(DetailCreatureBalance) == 92, "DetailCreatureBalance size incorrect");
+static_assert(sizeof(DetailCreatureDesireInitialCycleTime) == 68, "DetailCreatureDesireInitialCycleTime size incorrect");
 
 } // namespace openblack

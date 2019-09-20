@@ -161,17 +161,95 @@ void Balance::LoadVariables()
 	spdlog::debug("DETAIL_ANIMAL_INFO");
 	for (auto i = 0; i < 31; i++)
 	{
-		// skip this, not sure how it is structured yet
-		file->Seek(700, SeekMode::Current);
-
-		//auto info = file->ReadValue<DetailAnimalInfo>();
-		// spdlog::debug("[{}] debugString='{}' mesh={}", magic_enum::enum_name(static_cast<AnimalInfo>(i)), info.debugString, magic_enum::enum_name(info.meshHigh));
-	}	
-
-
+		auto info = file->ReadValue<DetailAnimalInfo>();
+		spdlog::debug("[{}] debugString='{}'", magic_enum::enum_name(static_cast<AnimalInfo>(i)), info.debugString);
+	}
 
 	// CreatureInfo::LoadIt
+	spdlog::debug("DETAIL_CREATURE_INFO");
+	for (auto i = 0; i < 17; i++)
+	{
+		auto info = file->ReadValue<DetailCreatureInfo>();
+		spdlog::debug("[{}] debugString='{}'", magic_enum::enum_name(static_cast<CreatureType>(i)), info.debugString);
+	}
+
 	// DifferentCreatureInfo::LoadIt
+	spdlog::debug("DETAIL_CREATURE_BALANCE");
+	for (auto i = 0; i < 17; i++)
+	{
+		auto info = file->ReadValue<DetailCreatureBalance>();
+		spdlog::debug("[{}] initialHeight={}", magic_enum::enum_name(static_cast<CreatureType>(i)), info.initialHeight);
+	}
+
+	spdlog::debug("DETAIL_CREATURE_DESIRE_INITIAL_CYCLE_TIME");
+	for (auto i = 0; i < 40; i++)
+	{
+		auto info = file->ReadValue<DetailCreatureDesireInitialCycleTime>();
+		spdlog::debug("[Desire::{}] {}", magic_enum::enum_name(static_cast<CreatureDesires>(i)), info.creatureTypes[0]);
+	}
+
+	spdlog::debug("DETAIL_CREATURE_DEVELOPMENT");
+	for (auto i = 0; i < 14; i++)
+	{
+		auto info = file->ReadValue<DetailCreatureDevelopment>();
+	}
+
+	spdlog::debug("DETAIL_CREATURE_DEVELOPS_TIME");
+	for (auto i = 0; i < 17; i++)
+	{
+		auto info = file->ReadValue<DetailCreatureDevelopsTime>();
+		spdlog::debug("[{}] = {}", magic_enum::enum_name(static_cast<CreatureType>(i)), info.developmentPhases[0]);
+	}
+
+	spdlog::debug("DETAIL_CITADEL_INFO");
+	{
+		auto info = file->ReadValue<DetailCitadelInfo>();
+	}
+
+	spdlog::debug("DETAIL_CITADEL_HEART_INFO");
+	{
+		auto info = file->ReadValue<DetailCitadelHeartInfo>();
+	}
+
+	spdlog::debug("DETAIL_CREATURE_PEN_INFO");
+	for (auto i = 0; i < 5; i++)
+	{
+		auto info = file->ReadValue<DetailCreaturePenInfo>();
+		spdlog::debug("{}", info.debugString);
+	}
+
+	spdlog::debug("DETAIL_WORSHIP_SITE_INFO");
+	for (auto i = 0; i < 9; i++)
+	{
+		auto info = file->ReadValue<DetailWorshipSiteInfo>();
+		spdlog::debug("{}", info.debugString);
+	}
+
+	spdlog::debug("DETAIL_SPELL_ICON_INFO");
+	for (auto i = 0; i < 2; i++)
+	{
+		auto info = file->ReadValue<DetailSpellIconInfo>();
+		spdlog::debug("{}", info.debugString);
+	}
+
+	spdlog::debug("DETAIL_ABODE_INFO");
+	for (auto i = 0; i < 147; i++)
+	{
+		auto info = file->ReadValue<DetailAbodeInfo>();
+		spdlog::debug("{} - Mesh: {}", info.debugString, magic_enum::enum_name(info.meshID));
+	}
+
+
+	// DETAIL_VILLAGER_INFO
+	// DETAIL_SPECIAL_VILLAGER_INFO
+	// DETAIL_TREE_INFO
+	// DETAIL_MISC_INFO
+	// DETAIL_HIGHLIGHT_INFO
+	// DETAIL_MAP_SHIELD_INFO
+	// DETAIL_BALL_INFO
+
+	spdlog::debug("info.dat: read {} / {}", file->Position(), file->Size());
+
 	// CreatureDesireForType::LoadIt
 	// CreatureDevelopmentPhaseEntry::LoadIt
 }
