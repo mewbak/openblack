@@ -23,53 +23,72 @@
 #include <AllMeshes.h>
 #include <Enums.h>
 #include <cstdint>
+#include <vector>
 
 namespace openblack
 {
 
-class Balance
+class IStream;
+
+class MagicInfo
 {
   public:
-	static void LoadVariables();
+	virtual void LoadBinary(IStream&);
+
+  protected:
+	struct Data
+	{
+		MagicType magicType;
+		ImmersionEffectType immersionEffectType;
+		int32_t stopImmersion;
+		float perceivedPower;
+		ParticleType particleType;
+		ImpressiveType impressiveType;
+		SpellSeedType spellSeedType;
+		GestureType gestureType;
+		PowerUpType powerupType;
+		CastRuleType castRuleType;
+		int32_t isSpellSeedDrawnInHand;
+		int32_t isSpellRecharged;
+		int32_t isCreatureCastFromAbove;
+		int32_t oneOffSpellIsPlayful;
+		int32_t oneOffSpellIsAggressive;
+		int32_t oneOffSpellIsCompassionate;
+		int32_t oneOffSpellIsToRestoreHealth;
+		ParticleType particleType2;
+	} data;
+
+	static_assert(sizeof(Data) == 72, "MagicInfo data size incorrect");
 };
 
-// enums need to be int32_t?
-
-struct MagicInfo
+class MagicHealInfo: MagicInfo
 {
-	MagicType magicType;
-	ImmersionEffectType immersionEffectType;
-	int32_t stopImmersion;
-	float perceivedPower;
-	ParticleType particleType;
-	ImpressiveType impressiveType;
-	SpellSeedType spellSeedType;
-	GestureType gestureType;
-	PowerUpType powerupType;
-	CastRuleType castRuleType;
-	int32_t isSpellSeedDrawnInHand;
-	int32_t isSpellRecharged;
-	int32_t isCreatureCastFromAbove;
-	int32_t oneOffSpellIsPlayful;
-	int32_t oneOffSpellIsAggressive;
-	int32_t oneOffSpellIsCompassionate;
-	int32_t oneOffSpellIsToRestoreHealth;
-	ParticleType particleType2;
+  public:
+	virtual void LoadBinary(IStream&) override;
+
+  protected:
+	struct Data
+	{
+		float dummyVar;
+		int32_t maxToHeal;
+	} healInfo;
 };
 
-struct MagicHealInfo: MagicInfo
+class MagicTeleportInfo: MagicInfo
 {
-	float dummyVar;
-	int32_t maxToHeal;
-};
+  public:
+	virtual void LoadBinary(IStream&);
 
-struct MagicTeleportInfo: MagicInfo
-{
+  protected:
 	float costPerKilometer;
 };
 
-struct MagicForestInfo: MagicInfo
+class MagicForestInfo: MagicInfo
 {
+  public:
+	virtual void LoadBinary(IStream&);
+
+  protected:
 	int32_t finalNoTrees;
 	int32_t startLife;
 	int32_t growSpeed;
@@ -77,8 +96,12 @@ struct MagicForestInfo: MagicInfo
 	int32_t woodValueMultiplier;
 };
 
-struct MagicFoodInfo: MagicInfo
+class MagicFoodInfo: MagicInfo
 {
+  public:
+	virtual void LoadBinary(IStream&);
+
+  protected:
 	ResourceType resourceType;
 	int32_t resourceAmountFirstEvent;
 	int32_t resourceAmountPerEvent;
@@ -86,8 +109,12 @@ struct MagicFoodInfo: MagicInfo
 	int32_t poisoned;
 };
 
-struct MagicStormAndTornadoInfo: MagicInfo
+class MagicStormAndTornadoInfo: MagicInfo
 {
+  public:
+	virtual void LoadBinary(IStream&);
+
+  protected:
 	float minRadius;
 	float maxRadius;
 	float radiusForNormalCost;
@@ -95,8 +122,12 @@ struct MagicStormAndTornadoInfo: MagicInfo
 	float rainAmount;
 };
 
-struct MagicShieldOneInfo: MagicInfo
+class MagicShieldOneInfo: MagicInfo
 {
+  public:
+	virtual void LoadBinary(IStream&);
+
+  protected:
 	int32_t minRadius;
 	int32_t maxRadius;
 	int32_t radiusForNormalCost;
@@ -106,8 +137,12 @@ struct MagicShieldOneInfo: MagicInfo
 	int32_t bobMagnitude;
 };
 
-struct MagicWoodInfo: MagicInfo
+class MagicWoodInfo: MagicInfo
 {
+  public:
+	virtual void LoadBinary(IStream&);
+
+  protected:
 	ResourceType resourceType;
 	int32_t resourceAmountFirstEvent;
 	int32_t resourceAmountPerEvent;
@@ -115,28 +150,41 @@ struct MagicWoodInfo: MagicInfo
 	int32_t poisoned;
 };
 
-// nothing ?
-struct MagicWaterInfo: MagicInfo
+class MagicWaterInfo: MagicInfo
 {
+  public:
+	virtual void LoadBinary(IStream&);
 };
 
-struct MagicFlockFlyingInfo: MagicInfo
+class MagicFlockFlyingInfo: MagicInfo
 {
+  public:
+	virtual void LoadBinary(IStream&);
+
+  protected:
 	int32_t numberToCreate;
 	int32_t alignmentSwitch;
 	int32_t distanceToTravel;
 };
 
-struct MagicFlockGroundInfo: MagicInfo
+class MagicFlockGroundInfo: MagicInfo
 {
+  public:
+	virtual void LoadBinary(IStream&);
+
+  protected:
 	int32_t numberToCreate;
 	int32_t alignmentSwitch;
 	int32_t distanceToTravel;
 	int32_t huntingRadius;
 };
 
-struct MagicCreatureSpellInfo: MagicInfo
+class MagicCreatureSpellInfo: MagicInfo
 {
+  public:
+	virtual void LoadBinary(IStream&);
+
+  protected:
 	CreatureReceiveSpellType creatureReceiveSpellType;
 	char text[48];
 	int32_t startTransitionDuration;
@@ -145,8 +193,12 @@ struct MagicCreatureSpellInfo: MagicInfo
 	int32_t maxDirnChangeWhenCtrCasting;
 };
 
-struct MagicEffectInfo
+class MagicEffectInfo
 {
+  public:
+	void LoadBinary(IStream&);
+
+  protected:
 	float effectBurn;
 	float effectCrush;
 	float effectHit;
@@ -197,8 +249,12 @@ struct MagicEffectInfo
 	float ComputerCastDuration;
 };
 
-struct ObjectInfo
+class ObjectInfo
 {
+  public:
+	virtual void LoadBinary(IStream&);
+
+  protected:
 	ObjectType objectType;
 	AlignmentType alignment;
 	char debugString[48];
@@ -250,8 +306,9 @@ struct ObjectInfo
 	float ComputerAttackDesire;
 };
 
-struct DetailSpellSeed: ObjectInfo
+class DetailSpellSeed: ObjectInfo
 {
+  protected:
 	GestureType SelectionGesture1;
 	GestureType SelectionGesture2;
 	GestureType SelectionGesture3;
@@ -291,8 +348,9 @@ struct DetailSpellSeed: ObjectInfo
 	int32_t CreatureUsesInFight;
 };
 
-struct DetailAnimalInfo: ObjectInfo
+class DetailAnimalInfo: ObjectInfo
 {
+  protected:
 	char unknown[256]; // no clue
 	int32_t Dummy;
 	int32_t speedGroup;  // todo: DETAIL_SPEED_GROUP
@@ -347,14 +405,13 @@ struct DetailAnimalInfo: ObjectInfo
 	int32_t ageToScaleNormal; // todo: AGE_TO_SCALE_NORMAL
 };
 
-// 0x384 = 900
-struct DetailCreatureInfo: ObjectInfo
+class DetailCreatureInfo: ObjectInfo
 {
-	char padding[660];
 };
 
-struct DetailCreatureBalance
+class DetailCreatureBalance
 {
+  protected:
 	float initialHeight;
 	float numMinutesToGrowToMaxIfFullyHealthy;
 	float energyDecreasePerGameTurn;
@@ -380,13 +437,15 @@ struct DetailCreatureBalance
 	float alignmentChangeSpeed;
 };
 
-struct DetailCreatureDesireInitialCycleTime
+class DetailCreatureDesireInitialCycleTime
 {
+  protected:
 	float creatureTypes[17];
 };
 
-struct DetailCreatureDevelopment
+class DetailCreatureDevelopment
 {
+  protected:
 	char text[48];
 	float howNearToStayToHome;
 	float timeBetweenHelpPromptsDevelopmentCriteria;
@@ -395,12 +454,12 @@ struct DetailCreatureDevelopment
 	CreatureDesires desireRemoved[4];
 };
 
-struct DetailCreatureDevelopsTime
+class DetailCreatureDevelopsTime
 {
 	int32_t developmentPhases[14];
 };
 
-struct DetailCitadelInfo
+class DetailCitadelInfo
 {
 	int32_t ContainerType;
 	int32_t HeartInfo;
@@ -421,7 +480,7 @@ struct DetailCitadelInfo
 	float VirtualInfluenceChantsToDouble;
 };
 
-struct DetailCitadelHeartInfo: ObjectInfo
+class DetailCitadelHeartInfo: ObjectInfo
 {
 	GroundInfo groundInfo;
 	int32_t woodRequiredPerBuild;
@@ -443,7 +502,7 @@ struct DetailCitadelHeartInfo: ObjectInfo
 	float transferedDamageMultiplier;
 };
 
-struct DetailCreaturePenInfo: ObjectInfo
+class DetailCreaturePenInfo: ObjectInfo
 {
 	GroundInfo groundInfo;
 	int32_t woodRequiredPerBuild;
@@ -464,7 +523,7 @@ struct DetailCreaturePenInfo: ObjectInfo
 	int32_t placementAngle;
 };
 
-struct DetailWorshipSiteInfo: ObjectInfo
+class DetailWorshipSiteInfo: ObjectInfo
 {
 	GroundInfo groundInfo;
 	int32_t woodRequiredPerBuild;
@@ -492,7 +551,7 @@ struct DetailWorshipSiteInfo: ObjectInfo
 	float artifactPowerupMultiplier;
 };
 
-struct DetailSpellIconInfo: ObjectInfo
+class DetailSpellIconInfo: ObjectInfo
 {
 	GroundInfo groundInfo;
 	int32_t woodRequiredPerBuild;
@@ -507,7 +566,7 @@ struct DetailSpellIconInfo: ObjectInfo
 	float gatheringChantAddPerGameTurn;
 };
 
-struct DetailAbodeInfo: ObjectInfo
+class DetailAbodeInfo: ObjectInfo
 {
 	GroundInfo groundInfo;
 	int32_t dummy1;
@@ -546,29 +605,43 @@ struct DetailAbodeInfo: ObjectInfo
 	int32_t populationWhenNeeded;
 	float thresholdForStopBeingFunctional;
 	int32_t toolTipsForBuild; // todo: ENUM_HELP_TEXT
-	int32_t didYouKnow; // todo: ENUM_HELP_TEXT
-	int32_t DYKCategory; // todo: ENUM_DYK_CATEGORY
+	int32_t didYouKnow;       // todo: ENUM_HELP_TEXT
+	int32_t DYKCategory;      // todo: ENUM_DYK_CATEGORY
+};
+
+class Balance
+{
+  public:
+	void LoadFromBinary();
+	void LoadFromSource();
+
+	static void LoadVariables();
+
+	const MagicInfo* GetMagicInfo(MagicType type) const;
+
+  private:
+	std::vector<std::unique_ptr<MagicInfo>> _magicInfo;
 };
 
 // size checks for Black & White 1, these will differ for CreatureIsle most likely
-static_assert(sizeof(MagicInfo) == 72, "MagicInfo size incorrect");
-static_assert(sizeof(MagicHealInfo) == 80, "MagicHealInfo size incorrect");
-static_assert(sizeof(MagicTeleportInfo) == 76, "MagicTeleportInfo size incorrect");
-static_assert(sizeof(MagicForestInfo) == 92, "MagicForestInfo size incorrect");
-static_assert(sizeof(MagicFoodInfo) == 92, "MagicFoodInfo size incorrect");
-static_assert(sizeof(MagicStormAndTornadoInfo) == 92, "MagicStormAndTornadoInfo size incorrect");
-static_assert(sizeof(MagicShieldOneInfo) == 100, "MagicShieldOneInfo size incorrect");
-static_assert(sizeof(MagicWoodInfo) == 92, "MagicWoodInfo size incorrect");
-static_assert(sizeof(MagicWaterInfo) == 72, "MagicWaterInfo size incorrect");
-static_assert(sizeof(MagicFlockFlyingInfo) == 84, "MagicFlockFlyingInfo size incorrect");
-static_assert(sizeof(MagicFlockGroundInfo) == 88, "MagicFlockGroundInfo size incorrect");
-static_assert(sizeof(MagicCreatureSpellInfo) == 140, "MagicCreatureSpellInfo size incorrect");
+//static_assert(sizeof(MagicInfo) == 72, "MagicInfo size incorrect");
+//static_assert(sizeof(MagicHealInfo) == 80, "MagicHealInfo size incorrect");
+//static_assert(sizeof(MagicTeleportInfo) == 76, "MagicTeleportInfo size incorrect");
+//static_assert(sizeof(MagicForestInfo) == 92, "MagicForestInfo size incorrect");
+//static_assert(sizeof(MagicFoodInfo) == 92, "MagicFoodInfo size incorrect");
+//static_assert(sizeof(MagicStormAndTornadoInfo) == 92, "MagicStormAndTornadoInfo size incorrect");
+//static_assert(sizeof(MagicShieldOneInfo) == 100, "MagicShieldOneInfo size incorrect");
+//static_assert(sizeof(MagicWoodInfo) == 92, "MagicWoodInfo size incorrect");
+//static_assert(sizeof(MagicWaterInfo) == 72, "MagicWaterInfo size incorrect");
+//static_assert(sizeof(MagicFlockFlyingInfo) == 84, "MagicFlockFlyingInfo size incorrect");
+//static_assert(sizeof(MagicFlockGroundInfo) == 88, "MagicFlockGroundInfo size incorrect");
+//static_assert(sizeof(MagicCreatureSpellInfo) == 140, "MagicCreatureSpellInfo size incorrect");
 
-static_assert(sizeof(MagicEffectInfo) == 268, "MagicEffectInfo size incorrect");
-static_assert(sizeof(DetailSpellSeed) == 384, "DetailSpellSeed size incorrect");
-static_assert(sizeof(DetailAnimalInfo) == 700, "DetailAnimalInfo size incorrect");
-static_assert(sizeof(DetailCreatureInfo) == 900, "DetailCreatureInfo size incorrect");
-static_assert(sizeof(DetailCreatureBalance) == 92, "DetailCreatureBalance size incorrect");
-static_assert(sizeof(DetailCreatureDesireInitialCycleTime) == 68, "DetailCreatureDesireInitialCycleTime size incorrect");
+//static_assert(sizeof(MagicEffectInfo) == 268, "MagicEffectInfo size incorrect");
+//static_assert(sizeof(DetailSpellSeed) == 384, "DetailSpellSeed size incorrect");
+//static_assert(sizeof(DetailAnimalInfo) == 700, "DetailAnimalInfo size incorrect");
+//static_assert(sizeof(DetailCreatureInfo) == 900, "DetailCreatureInfo size incorrect");
+//static_assert(sizeof(DetailCreatureBalance) == 92, "DetailCreatureBalance size incorrect");
+//static_assert(sizeof(DetailCreatureDesireInitialCycleTime) == 68, "DetailCreatureDesireInitialCycleTime size incorrect");
 
 } // namespace openblack

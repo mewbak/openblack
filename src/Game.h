@@ -28,6 +28,7 @@
 
 namespace openblack
 {
+class Balance;
 class Camera;
 class FileSystem;
 class GameWindow;
@@ -89,6 +90,7 @@ class Game
 	[[nodiscard]] Camera& GetCamera() const { return *_camera; }
 	[[nodiscard]] Sky& GetSky() const { return *_sky; }
 	[[nodiscard]] Water& GetWater() const { return *_water; }
+	[[nodiscard]] Balance& GetBalance() const { return *_balance; }
 	LandIsland& GetLandIsland() { return *_landIsland; }
 	[[nodiscard]] LandIsland& GetLandIsland() const { return *_landIsland; }
 	[[nodiscard]] L3DMesh& GetTestModel() const { return *_testModel; }
@@ -124,6 +126,7 @@ class Game
 
 	std::unique_ptr<L3DMesh> _testModel;
 	std::unique_ptr<Sky> _sky;
+	std::unique_ptr<Balance> _balance;
 	std::unique_ptr<Water> _water;
 	std::unique_ptr<LHScriptX::Script> _scriptx;
 	std::unique_ptr<LHVM::LHVM> _lhvm;

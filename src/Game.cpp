@@ -135,7 +135,11 @@ void Game::Run()
 	_sky   = std::make_unique<Sky>();
 	_water = std::make_unique<Water>();
 
-	Balance::LoadVariables();
+	_balance = std::make_unique<Balance>();
+	_balance->LoadFromBinary();
+
+	auto info = _balance->GetMagicInfo(MagicType::Fireball);
+
 	LoadLandscape("./Data/Landscape/Land1.lnd");
 	LoadMap("./Scripts/Land1.txt");
 

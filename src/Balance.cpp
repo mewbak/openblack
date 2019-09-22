@@ -20,6 +20,7 @@
 
 #include <Balance.h>
 #include <Common/FileSystem.h>
+#include <Common/IStream.h>
 #include <Common/magic_enum.hpp>
 #include <Game.h>
 #include <spdlog/spdlog.h>
@@ -27,7 +28,18 @@
 namespace openblack
 {
 
-void Balance::LoadVariables()
+void MagicInfo::LoadBinary(IStream& stream)
+{
+	stream.Read<MagicInfo::Data>(&data);
+}
+
+void MagicHealInfo::LoadBinary(IStream& stream)
+{
+	MagicInfo::LoadBinary(stream);
+	stream.Read<MagicHealInfo::Data>(&healInfo);
+}
+
+void Balance::LoadFromBinary()
 {
 	auto file = Game::instance()->GetFileSystem().Open("Scripts/info.dat", FileMode::Read);
 
@@ -49,6 +61,31 @@ void Balance::LoadVariables()
 	char blockName[32];
 	file->Read(blockName, 32);
 	uint32_t size = file->ReadValue<uint32_t>();
+
+	// DETAIL_MAGIC_GENERAL_INFO
+	for (int i = 0; i < 10; i++)
+	{
+		auto info = std::make_unique<MagicInfo>();
+		info->LoadBinary(*file);
+		_magicInfo.push_back(std::move(info));
+	}
+
+	// DETAIL_MAGIC_HEAL_INFO
+	for (auto i = 0; i < 2; i++)
+	{
+		std::unique_ptr<MagicInfo> info = std::make_unique<MagicHealInfo>();
+		info->LoadBinary(*file);
+		_magicInfo.push_back(std::move(info));
+	}
+}
+
+const MagicInfo* Balance::GetMagicInfo(MagicType type) const
+{
+	return _magicInfo.at(static_cast<size_t>(type)).get();
+}
+
+/*void Balance::LoadVariables()
+{
 
 	// GMagicInfo::LoadMagic
 	spdlog::debug("DETAIL_MAGIC_GENERAL_INFO");
@@ -239,7 +276,6 @@ void Balance::LoadVariables()
 		spdlog::debug("{} - Mesh: {}", info.debugString, magic_enum::enum_name(info.meshID));
 	}
 
-
 	// DETAIL_VILLAGER_INFO
 	// DETAIL_SPECIAL_VILLAGER_INFO
 	// DETAIL_TREE_INFO
@@ -252,5 +288,5 @@ void Balance::LoadVariables()
 
 	// CreatureDesireForType::LoadIt
 	// CreatureDevelopmentPhaseEntry::LoadIt
-}
+}*/
 } // namespace openblack
